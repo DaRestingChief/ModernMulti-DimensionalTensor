@@ -35,6 +35,25 @@ int main() {
     t3.print();
 
     std::cout << "Done.\n";
+std::cout << "\n--- Testing reshape() ---\n";
+t.reshape({3,2});
+t.print();
+
+std::cout << "\n--- Testing add() ---\n";
+Tensor t2({3,2});
+t2.set({0,0}, 10);
+t2.set({1,1}, 20);
+Tensor added = t.add(t2);
+added.print();
+
+std::cout << "\n--- Testing multiply() ---\n";
+Tensor multiplied = t.multiply(t2);
+multiplied.print();
+
+std::cout << "\n--- Testing transpose2D() ---\n";
+Tensor transposed = t.transpose2D();
+transposed.print();
+
     return 0;
 }
 

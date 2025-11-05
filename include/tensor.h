@@ -27,6 +27,11 @@ public:
 
     // Simple print (shows shape and flat data). If 2D, prints as matrix.
     void print() const;
+    // New Functions We Are Adding
+void reshape(const std::vector<int>& new_shape);
+Tensor add(const Tensor& other) const;
+Tensor multiply(const Tensor& other) const;
+Tensor transpose2D() const;
 
 private:
     std::vector<int> shape_;

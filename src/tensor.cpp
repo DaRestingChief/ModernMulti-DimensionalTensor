@@ -92,3 +92,53 @@ void Tensor::print() const {
         std::cout << data_[i] << (i + 1 < data_.size() ? ", " : "\n");
     }
 }
+// Reshape without reallocating memory
+void Tensor::reshape(const std::vector<int>& new_shape) {
+    size_t new_size = 1;
+    for (int d : new_shape) new_size *= d;
+    if (new_size != size()) {
+        throw std::invalid_argument("Total elements must remain same in reshape");
+    }
+    shape_ = new_shape;
+    compute_strides();
+}
+
+// Element-wise addition
+Tensor Tensor::add(const Tensor& other) const {
+    if (shape_ != other.shape_) {
+        throw std::invalid_argument("Shape mismatch in add()");
+    }
+    Tensor result(shape_);
+    for (size_t i = 0; i < data_.size(); ++i) {
+        result.data_[i] = data_[i] + other.data_[i];
+    }
+    return result;
+}
+
+// Element-wise multiplication
+Tensor Tensor::multiply(const Tensor& other) const {
+    if (shape_ != other.shape_) {
+        throw std::invalid_argument("Shape mismatch in multiply()");
+    }
+    Tensor result(shape_);
+    for (size_t i = 0; i < data_.size(); ++i) {
+        result.data_[i] = data_[i] * other.data_[i];
+    }
+    return result;
+}
+
+// Transpose for 2D tensors only
+Tensor Tensor::transpose2D() const {
+    if (shape_.size() != 2) {
+        throw std::invalid_argument("transpose2D() only works for 2D tensors");
+    }
+    int rows = shape_[0], cols = shape_[1];
+    Tensor result({cols, rows});
+
+    for (int r = 0; r < rows; ++r) {
+        for (int c = 0; c < cols; ++c) {
+            result.set({c, r}, get({r, c}));
+        }
+    }
+    return result;
+}
